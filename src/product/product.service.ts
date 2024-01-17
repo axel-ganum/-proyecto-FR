@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Productos } from './product.entity';
-import { Repository, Like, FindManyOptions } from 'typeorm';
+import { Repository, ILike, FindManyOptions,} from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 
 @Injectable()
@@ -14,15 +14,21 @@ export class ProductService {
         return this.productRepository.save(newProduct)
     }
 
-    getProducts(query:string) {
-    
-         const searchOptions: FindManyOptions<Productos> = {
+   async getProducts(query:string) {
+       try {
+          const serachOptions: FindManyOptions<Productos> = {
             where: [
-                { productname: Like(`${query}`)}
+                 { productname: ILike(`%${query}%`) }
             ],
-         };
-         
-           return this.productRepository.find(searchOptions);
-         }
+          };
 
+             return await this.productRepository.find(serachOptions);
+
+        } catch (error) {
+            console.log('Error al obtener:', error);
+            throw error
+        }
+        
+       }
+        
 }

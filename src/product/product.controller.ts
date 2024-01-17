@@ -9,8 +9,8 @@ export class ProductController {
  
     constructor(private productServise: ProductService) {}
     @Get()
-    getProducts(@Query('query') query: string) {
-        return this.productServise.getProducts(query);
+   async getProducts(@Query('query') query: string) {
+        return await this.productServise.getProducts(query);
     }
 
 
