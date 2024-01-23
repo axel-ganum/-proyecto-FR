@@ -4,6 +4,11 @@ import * as cors from 'cors';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
+import { EdicionesPreciosModule } from './ediciones_precios/ediciones_precios.module';
+import { MarcasService } from './marcas/marcas.service';
+import { MarcasModule } from './marcas/marcas.module';
+import { SucursalesController } from './sucursales/sucursales.controller';
+import { SucursalesModule } from './sucursales/sucursales.module';
 
 
 
@@ -20,10 +25,16 @@ import { ProductModule } from './product/product.module';
       synchronize: false,
     }),
   
-    ProductModule
+    ProductModule,
+  
+    EdicionesPreciosModule,
+  
+    MarcasModule,
+  
+    SucursalesModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, SucursalesController],
+  providers: [AppService, MarcasService],
 })
 export class AppModule {configure(consumer: MiddlewareConsumer) {
   consumer.apply(cors()).forRoutes({ path: '*', method: RequestMethod.ALL })// Habilita CORS para todas las rutas

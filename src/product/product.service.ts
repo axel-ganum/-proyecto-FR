@@ -18,7 +18,7 @@ export class ProductService {
        try {
           const serachOptions: FindManyOptions<Productos> = {
             where: [
-                 { productname: ILike(`%${query}%`) }
+                 { producto: ILike(`%${query}%`) }
             ],
           };
 
