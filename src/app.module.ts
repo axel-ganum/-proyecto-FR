@@ -23,6 +23,8 @@ import { SucursalesModule } from './sucursales/sucursales.module';
       database: 'RF',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false,
+      migrations: ["dist/migrations/*.js"]
+     
     }),
   
     ProductModule,

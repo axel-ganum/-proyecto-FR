@@ -1,4 +1,4 @@
 export class Createmarcasdto{
-    id_marcas: number
+    id_marca: number
     marcas: string
 }

@@ -3,47 +3,48 @@ import { modelos } from 'src/modelos/modelos.entity'
 import { sucursales } from 'src/sucursales/sucursales.entity'
 import {Entity, Column, PrimaryGeneratedColumn,OneToOne, JoinColumn} from 'typeorm'
 
-@Entity({name: 'product'})
+
+@Entity({ name: 'product' })
 export class Productos {
     @PrimaryGeneratedColumn()
-    id_product: number
+    id_product: number;
 
     @Column({ default: 'Valor Predeterminado' })
-    producto: string
+    producto: string;
 
     @Column()
-    id_marcas: number
-    
-    @OneToOne(() =>marcas)
-    @JoinColumn({ name:'marcas'})
+    id_marca: number;
+
+    @OneToOne(() => marcas)
+    @JoinColumn({ name: 'id_marca' })
     marcas: marcas;
-    
-    @Column()
-    id_modelos: number
 
-    @OneToOne(() =>modelos)
-    @JoinColumn({ name:'modelos'})
+    @Column()
+    id_modelos: number;
+
+    @OneToOne(() => modelos)
+    @JoinColumn({ name: 'id_modelos' })
     modelos: modelos;
 
     @Column()
-    id_sucursales: number
+    id_sucursales: number;
 
-    @OneToOne(() =>sucursales)
-    @JoinColumn({ name:'sucursales'})
+    @OneToOne(() => sucursales)
+    @JoinColumn({ name: 'id_sucursales' })
     sucursales: sucursales;
-    
-    @Column()
-    codigo_de_barras: number
 
     @Column()
-    precio: number
+    codigo_de_barras: number;
 
     @Column()
-    stock: number
+    precio: number;
 
     @Column()
-    url_imagen: string
+    stock: number;
 
     @Column()
-    descripcion: string
+    url_imagen: string;
+
+    @Column()
+    descripcion: string;
 }
