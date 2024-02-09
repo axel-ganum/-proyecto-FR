@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Productos } from './product.entity';
 import { Repository, ILike, EntityManager} from 'typeorm';
@@ -17,7 +17,7 @@ export class ProductService {
      ) {}
     
      async createProductWithDetails(createProductDto: CreateProductWithDetailsDto) {
-        return this.productRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
+      try{ return this.productRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
             // Crear nuevas marcas, modelos y sucursales
             const nuevaMarca = await transactionalEntityManager.save(marcas, { marca: createProductDto.marca });
             const nuevoModelo = await transactionalEntityManager.save(modelos, { modelos: createProductDto.modelo });
@@ -35,8 +35,11 @@ export class ProductService {
             // Guardar el nuevo producto
             return transactionalEntityManager.save(Productos, nuevoProducto);
         });
+    } catch (error) {
+        console.log('Error al crear el producto con detalles:', error);
+      throw new BadRequestException('Error al crear el producto con detalles');
     }
-       
+}  
 
 
 
@@ -70,9 +73,23 @@ export class ProductService {
 
         } catch (error) {
             console.log('Error al obtener:', error);
-            throw error
+            throw new BadRequestException('Error al obtener producto')
         }
         
        }
-        
+       async searchProducts(query: string) {
+        try {
+          const searchOptions = query
+            ? { producto: ILike(`%${query}`) }
+            : {};
+    
+          return this.productRepository.find({
+            where: searchOptions,
+            relations: ['marcas', 'modelos', 'sucursales'],
+          });
+        } catch (error) {
+          console.log('Error al buscar productos:', error);
+          throw error;
+        }
+      }
 }
