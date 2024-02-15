@@ -1,15 +1,17 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne,OneToMany } from 'typeorm';
+import { Productos } from '../product/product.entity';
 
-@Entity({name: 'sucursales'})
-export class sucursales {
+@Entity({ name: 'sucursales' })
+export class Sucursales {
     @PrimaryGeneratedColumn()
-    id_sucursales: number
-
-    @Column({ default: 'Valor Predeterminado' })
-    nombre: string
+    id_sucursal: number;
 
     @Column()
-    ciudad: string
+    nombre: string;
 
+    @Column()
+    ciudad: string;
 
+    @ManyToOne(() => Productos, producto => producto.sucursales)
+    producto: Productos[];
 }

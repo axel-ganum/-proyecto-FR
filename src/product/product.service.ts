@@ -3,30 +3,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Productos } from './product.entity';
 import { Repository, ILike, EntityManager} from 'typeorm';
 import { CreateProductWithDetailsDto } from './dto/create-product.dto';
-import { marcas } from 'src/marcas/marcas.entity';
-import { modelos } from 'src/modelos/modelos.entity';
-import { sucursales } from 'src/sucursales/sucursales.entity';
+import { Marcas } from 'src/marcas/marcas.entity';
+import { Modelos } from 'src/modelos/modelos.entity';
+import { Sucursales } from 'src/sucursales/sucursales.entity';
 @Injectable()
 export class ProductService {
 
     constructor(
         @InjectRepository(Productos) private readonly productRepository: Repository<Productos>,
-        @InjectRepository(marcas) private readonly marcaRepository: Repository<marcas>,
-        @InjectRepository(modelos) private readonly modelosRepository: Repository<modelos>,
-        @InjectRepository(sucursales) private readonly sucursalesRepository: Repository<sucursales>,
+        @InjectRepository(Marcas) private readonly marcaRepository: Repository<Marcas>,
+        @InjectRepository(Modelos) private readonly modelosRepository: Repository<Modelos>,
+        @InjectRepository(Sucursales) private readonly sucursalesRepository: Repository<Sucursales>,
      ) {}
     
-     async createProductWithDetails(createProductDto: CreateProductWithDetailsDto) {
+     async createProductWithDetails(createProductDto: CreateProductWithDetailsDto): Promise<Productos> {
       try{ return this.productRepository.manager.transaction(async (transactionalEntityManager: EntityManager) => {
             // Crear nuevas marcas, modelos y sucursales
-            const nuevaMarca = await transactionalEntityManager.save(marcas, { marca: createProductDto.marca });
-            const nuevoModelo = await transactionalEntityManager.save(modelos, { modelos: createProductDto.modelo });
-            const nuevaSucursal = await transactionalEntityManager.save(sucursales, { nombre: createProductDto.sucursal, ciudad:createProductDto.ciudad});
+            const nuevaMarca = await transactionalEntityManager.save(Marcas, { marca: createProductDto.marca });
+            const nuevoModelo = await transactionalEntityManager.save(Modelos, { modelo: createProductDto.modelo });
+            const nuevaSucursal = await transactionalEntityManager.save(Sucursales, { nombre: createProductDto.sucursal, ciudad:createProductDto.ciudad});
 
             // Crear el nuevo producto y asignar las nuevas marcas, modelos y sucursales
             const nuevoProducto = this.productRepository.create({
                 ...createProductDto,
-                id_marca: nuevaMarca.id_marca, 
+                marcas: nuevaMarca,
                 modelos: nuevoModelo,
                 sucursales: nuevaSucursal,
                 
@@ -46,7 +46,7 @@ export class ProductService {
    async getProducts(query:string) {
        try {
           const serachOptions = query
-            ? {producto: ILike(`%${query}`)} 
+            ? {producto: ILike(`%${query}%`)} 
             : {};
 
             const productos = await this.productRepository.find({
@@ -63,8 +63,8 @@ export class ProductService {
                  url_imagenes: producto.url_imagen,
                  descripcion: producto.descripcion,
                  marca: producto.marcas ? producto.marcas.marca : null,
-                 modelo: producto.modelos ? producto.modelos.modelos : null,
                  sucursal: producto.sucursales ? producto.sucursales.nombre : null,
+                 modelo: producto.modelos ? producto.modelos.modelo : null,
                  ciudad: producto.sucursales ? producto.sucursales.ciudad : null,
             }));
              

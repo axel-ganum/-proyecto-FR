@@ -1,13 +1,14 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Productos } from '../product/product.entity';
 
-@Entity({name: 'marcas'})
-export class marcas {
+@Entity({ name: 'marcas' })
+export class Marcas {
     @PrimaryGeneratedColumn()
-    id_marca: number
+    id_marca: number;
 
-    @Column({ default: 'Valor Predeterminado' })
-    marca: string
+    @Column()
+    marca: string;
 
-
-
+    @ManyToOne(() => Productos, producto => producto.marcas)
+    producto: Productos[];
 }

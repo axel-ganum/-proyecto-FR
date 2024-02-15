@@ -1,8 +1,7 @@
-import { marcas } from 'src/marcas/marcas.entity'
-import { modelos } from 'src/modelos/modelos.entity'
-import { sucursales } from 'src/sucursales/sucursales.entity'
-import {Entity, Column, PrimaryGeneratedColumn,OneToOne, JoinColumn} from 'typeorm'
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Marcas } from 'src/marcas/marcas.entity';
+import { Modelos } from 'src/modelos/modelos.entity';
+import { Sucursales } from 'src/sucursales/sucursales.entity';
 
 @Entity({ name: 'product' })
 export class Productos {
@@ -12,26 +11,14 @@ export class Productos {
     @Column({ default: 'Valor Predeterminado' })
     producto: string;
 
-    @Column()
-    id_marca: number;
+    @ManyToOne(() => Marcas, marca => marca.producto)
+    marcas: Marcas;
 
-    @OneToOne(() => marcas)
-    @JoinColumn({ name: 'id_marca' })
-    marcas: marcas;
+    @ManyToOne(() => Modelos, modelo => modelo.producto)
+    modelos: Modelos;
 
-    @Column()
-    id_modelos: number;
-
-    @OneToOne(() => modelos)
-    @JoinColumn({ name: 'id_modelos' })
-    modelos: modelos;
-
-    @Column()
-    id_sucursales: number;
-
-    @OneToOne(() => sucursales)
-    @JoinColumn({ name: 'id_sucursales' })
-    sucursales: sucursales;
+    @ManyToOne(() => Sucursales, sucursal => sucursal.producto)
+    sucursales: Sucursales;
 
     @Column()
     codigo_de_barras: number;
