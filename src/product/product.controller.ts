@@ -18,6 +18,10 @@ export class ProductController {
         throw new BadRequestException('Error al obtener productos. Detalles: ' + error.message);
     }
    }
+   @Get() 
+   async getAllProducts(){
+    return await this.productServise.getAllProducts();
+   }
 
     @Post()
     createProduct(@Body() newProduct: CreateProductWithDetailsDto): Promise<Productos>{

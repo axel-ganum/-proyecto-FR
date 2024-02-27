@@ -25,22 +25,25 @@ export class ProductService {
 
             // Crear el nuevo producto y asignar las nuevas marcas, modelos y sucursales
             const nuevoProducto = this.productRepository.create({
-                ...createProductDto,
-                marcas: nuevaMarca,
-                modelos: nuevoModelo,
-                sucursales: nuevaSucursal,
-                
-                });
-
+              ...createProductDto,
+              marcas: nuevaMarca,
+              modelos: nuevoModelo,
+              sucursales: nuevaSucursal,
+              
+            });
+            
             // Guardar el nuevo producto
             return transactionalEntityManager.save(Productos, nuevoProducto);
-        });
-    } catch (error) {
-        console.log('Error al crear el producto con detalles:', error);
-      throw new BadRequestException('Error al crear el producto con detalles');
-    }
-}  
-
+          });
+        } catch (error) {
+          console.log('Error al crear el producto con detalles:', error);
+          throw new BadRequestException('Error al crear el producto con detalles');
+        }
+      }  
+      
+      async getAllProducts(): Promise<Productos[]> {
+        return await this.productRepository.find();
+      }
 
 
    async getProducts(query:string) {
@@ -74,22 +77,10 @@ export class ProductService {
         } catch (error) {
             console.log('Error al obtener:', error);
             throw new BadRequestException('Error al obtener producto')
-        }
-        
-       }
-       async searchProducts(query: string) {
-        try {
-          const searchOptions = query
-            ? { producto: ILike(`%${query}`) }
-            : {};
-    
-          return this.productRepository.find({
-            where: searchOptions,
-            relations: ['marcas', 'modelos', 'sucursales'],
-          });
-        } catch (error) {
-          console.log('Error al buscar productos:', error);
-          throw error;
-        }
+        } 
       }
-}
+        
+
+       }
+       
+
