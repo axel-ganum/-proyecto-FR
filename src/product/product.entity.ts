@@ -11,10 +11,10 @@ export class Productos {
     @Column({ default: 'Valor Predeterminado' })
     producto: string;
 
-    @ManyToOne(() => Marcas, marca => marca.producto)
+    @ManyToOne(() => Marcas, marca => marca.producto, {nullable:true})
     marcas: Marcas;
 
-    @ManyToOne(() => Modelos, modelo => modelo.producto)
+    @ManyToOne(() => Modelos, modelo => modelo.producto, {nullable: true})
     modelos: Modelos;
 
     @ManyToOne(() => Sucursales, sucursal => sucursal.producto)
@@ -34,4 +34,7 @@ export class Productos {
 
     @Column()
     descripcion: string;
+
+    @Column()
+    categoria: string
 }
