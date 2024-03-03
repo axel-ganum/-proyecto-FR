@@ -11,5 +11,5 @@ export class CreateProductWithDetailsDto {
    modelo: string;
    sucursal: string;
    ciudad: string;
-   categotia: string
+   categoria: string
 }

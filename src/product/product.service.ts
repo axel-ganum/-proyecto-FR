@@ -29,7 +29,7 @@ export class ProductService {
               marcas: nuevaMarca,
               modelos: nuevoModelo,
               sucursales: nuevaSucursal,
-              
+              categoria: createProductDto.categoria,
             });
             
             // Guardar el nuevo producto
@@ -69,6 +69,7 @@ export class ProductService {
                  sucursal: producto.sucursales ? producto.sucursales.nombre : null,
                  modelo: producto.modelos ? producto.modelos.modelo : null,
                  ciudad: producto.sucursales ? producto.sucursales.ciudad : null,
+                 categoria: producto.categoria,
             }));
              
            return ProductosJSON;

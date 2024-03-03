@@ -7,11 +7,9 @@ export class Sucursales {
     id_sucursal: number;
 
     @Column()
-    nombre: string;
-
-    @Column()
     ciudad: string;
 
     @ManyToOne(() => Productos, producto => producto.sucursales)
     producto: Productos[];
+  nombre: any;
 }

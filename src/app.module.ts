@@ -9,6 +9,7 @@ import { MarcasService } from './marcas/marcas.service';
 import { MarcasModule } from './marcas/marcas.module';
 import { SucursalesController } from './sucursales/sucursales.controller';
 import { SucursalesModule } from './sucursales/sucursales.module';
+import { truncate } from 'fs/promises';
 
 
 
