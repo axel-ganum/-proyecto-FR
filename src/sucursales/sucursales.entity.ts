@@ -6,9 +6,6 @@ export class Sucursales {
     @PrimaryGeneratedColumn()
     id_sucursal: number;
 
-    @Column()
-    ciudad: string;
-
     @ManyToOne(() => Productos, producto => producto.sucursales)
     producto: Productos[];
   nombre: any;

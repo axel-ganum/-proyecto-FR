@@ -21,16 +21,10 @@ export class Productos {
     sucursales: Sucursales;
 
     @Column()
-    codigo_de_barras: number;
-
-    @Column()
     precio: number;
 
     @Column()
     stock: number;
-
-    @Column()
-    url_imagen: string;
 
     @Column()
     descripcion: string;

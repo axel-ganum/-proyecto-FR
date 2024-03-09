@@ -21,7 +21,7 @@ export class ProductService {
             // Crear nuevas marcas, modelos y sucursales
             const nuevaMarca = await transactionalEntityManager.save(Marcas, { marca: createProductDto.marca });
             const nuevoModelo = await transactionalEntityManager.save(Modelos, { modelo: createProductDto.modelo });
-            const nuevaSucursal = await transactionalEntityManager.save(Sucursales, { nombre: createProductDto.sucursal, ciudad:createProductDto.ciudad});
+            const nuevaSucursal = await transactionalEntityManager.save(Sucursales, { nombre: createProductDto.sucursal});
 
             // Crear el nuevo producto y asignar las nuevas marcas, modelos y sucursales
             const nuevoProducto = this.productRepository.create({
@@ -60,15 +60,12 @@ export class ProductService {
              
             const ProductosJSON = productos.map(producto => ({
                 producto: producto.producto,
-                codigo_de_barras: producto.codigo_de_barras,
                 precio: producto.precio,
                 stock: producto.stock,
-                 url_imagenes: producto.url_imagen,
                  descripcion: producto.descripcion,
                  marca: producto.marcas ? producto.marcas.marca : null,
                  sucursal: producto.sucursales ? producto.sucursales.nombre : null,
                  modelo: producto.modelos ? producto.modelos.modelo : null,
-                 ciudad: producto.sucursales ? producto.sucursales.ciudad : null,
                  categoria: producto.categoria,
             }));
              

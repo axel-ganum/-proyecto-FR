@@ -6,7 +6,7 @@ export class ediciones_precios{
     id_edipre: number
 
     @Column({ default: 'Valor Predeterminado' })
-    id_producto: number
+    precio: number
 
     @Column()
     nuevo_precio: number
